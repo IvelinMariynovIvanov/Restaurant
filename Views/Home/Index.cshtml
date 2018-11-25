@@ -1,0 +1,18 @@
+﻿@model Restaurant.ViewModels.HomeVm.IndexVm
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+
+
+@foreach (var menuItem in Model.MenuItems)
+{
+    <h3 class="text-primary">@menuItem.Category.Name</h3>
+
+    <div class="row" style="padding-bottom:10px">
+        @Html.Partial("ThumbnailAreaPartial", menuItem)
+    </div>
+}
+
+

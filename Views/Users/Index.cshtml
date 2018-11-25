@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Restaurant.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<br />
+<h2 class="text-info">Users</h2>
+<hr />
+
+<div class="border">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FristName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Lastname)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FristName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lastname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td style="width:150px">
+                    <div>
+                        <a type="button" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary mr-3">
+                            <i class="fas fa-edit"></i>
+                        </a>
+
+                        @*href="@Url.Action("Details/"+Model)" class="btn btn-success"*@
+                        <a type="button" asp-action="Lock" asp-route-id="@item.Id" class="btn btn-danger mr-3">
+                            <i class="fas fa-lock"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

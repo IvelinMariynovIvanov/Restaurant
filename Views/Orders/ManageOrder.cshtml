@@ -1,0 +1,50 @@
+﻿@model List<Restaurant.Models.Entities.OrderHeader>
+@using Restaurant.Utility 
+
+@{
+    ViewData["Title"] = "ManageOrder";
+}
+
+<h2>Manage Orders</h2>
+<br />
+
+@if(Model.Count > 0)
+{
+<form method="post">
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <div class="container row border mb-5">
+            <div class="col-10" >
+                @Html.Partial("_IndividualOrderDetails", Model[i])
+            </div>
+            <div class="col-2" style="margin-top:25px">
+                @if (Model[i].OrderStatus == StaticDetails.StatusSubmitted)
+                {
+                    <button type="submit" asp-action="OrderPrepare" asp-route-orderId="@Model[i].Id" class="btn btn-outline-info btn-block mb-3 ">
+                        <i class="fas fa-check">Start Cooking</i> 
+                    </button>
+
+                    <button type="submit" asp-action="OrderCancell" asp-route-orderId="@Model[i].Id" class="btn btn-outline-danger btn-block">
+                        <i class="fas fa-times">Cancel Order</i> 
+                    </button>
+                }
+                else if (Model[i].OrderStatus == StaticDetails.StatusInProgress)
+                {
+                  
+                    <button type="submit" asp-action="OrderReady" asp-route-orderId="@Model[i].Id" class="btn btn-outline-success btn-block">
+                        <i class="far fa-hand-point-left"></i> Ready
+                    </button>
+                    <button type="submit" asp-action="OrderCancell" asp-route-orderId="@Model[i].Id" class="btn btn-outline-danger btn-block">
+                        <i class="fas fa-times"></i> Cancel Order
+                    </button>
+                }
+            </div>
+        </div>
+    }
+</form>
+}
+else
+{
+    <p>There are no orders for cooking</p>
+}
+

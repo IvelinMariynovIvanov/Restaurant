@@ -1,0 +1,22 @@
+﻿@*@model Restaurant.ViewModels.OrderDetailsVm.ConfirmOrderVm*@
+@*@model List<Restaurant.Models.Entities.OrderDetails>*@
+
+@model Restaurant.Models.Entities.OrderHeader
+@{
+    ViewData["Title"] = "Confirm";
+}
+
+<h2>Order Confirm</h2>
+
+@if (Model != null)
+{
+    @Html.Partial("_IndividualOrderDetails", Model)
+
+    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-primary">Add Another Order</a>
+}
+else
+{
+    <div class="text-danger">
+        Error. Please try again
+    </div>
+}

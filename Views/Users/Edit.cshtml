@@ -1,0 +1,85 @@
+﻿@model Restaurant.Models.ApplicationUser
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<br />
+<h2 class="text-info">Edit @Model.FristName @Model.Lastname</h2>
+<hr />
+
+<div class="border">
+    <div>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="Email" hidden />
+            <div class="form-group row mt-2">
+                <div class="col-2">
+                    <label asp-for="FristName" class="control-label m-2"></label>
+                </div>
+                <div class="col-4">
+                    <input asp-for="FristName" class="form-control" />
+                    <span asp-validation-for="FristName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="Lastname" class="control-label m-2"></label>
+                </div>
+                <div class="col-4">
+                    <input asp-for="Lastname" class="form-control" />
+                    <span asp-validation-for="Lastname" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="Email" class="control-label m-2"></label>
+                </div>
+                <div class="col-4">
+                    <input asp-for="Email" class="form-control" disabled />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="PhoneNumber" class="control-label m-2"></label>
+                </div>
+                <div class="col-4">
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="LockoutEnd" class="control-label m-2"></label>
+                </div>
+                <div class="col-4">
+                    <input asp-for="LockoutEnd" class="form-control" id="datepicker" type="date" />
+                    <span asp-validation-for="LockoutEnd" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="LockoutReason" class="control-label m-2"></label>S
+                </div>
+                <div class="col-4">
+                    <textarea asp-for="LockoutReason" class="form-control" style="height:100px;"></textarea>
+                </div>
+            </div>
+            <div class="form-group row m-2">
+                <input type="submit" value="Edit" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-success ml-2">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @*<script type="text/javascript">   
+        $(document).ready(function () {
+            $("#datepicker").datepicker({ format: '0:MM/dd/yyyy', autoclose: true, todayBtn: 'linked' })
+        });
+    </script>*@
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

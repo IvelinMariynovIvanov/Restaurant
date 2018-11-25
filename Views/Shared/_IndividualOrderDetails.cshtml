@@ -1,0 +1,66 @@
+﻿@*@model List<Restaurant.Models.Entities.OrderDetails>*@
+
+@model Restaurant.Models.Entities.OrderHeader
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<div class="row rounded border" style="background-color:aliceblue; margin-bottom:25px; padding-top:10px;margin-top:25px; ">
+    <div class="col-6">
+        <div>
+            <h5 class="text-danger">Order Number : @Model.Id</h5>
+        </div>
+        <ul>
+            @foreach (var item in Model.OrderDetails)
+            {
+                <li>
+                    @item.Name x @item.Count
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div class="col-6">
+        <div class="row">
+            <div class="2"></div>
+            <div class="col-4">
+                Order Total :
+            </div>
+            <div class="col-6">
+                $@Model.OrderTotalPrice
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="2"></div>
+            <div class="col-4">
+                Pick Up Time :
+            </div>
+            <div class="col-6">
+                @Model.PickUpTime.ToShortDateString() @Model.PickUpTime.ToShortTimeString()
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="2"></div>
+            <div class="col-4">
+                Order Status :
+            </div>
+            <div class="col-6">
+                @Model.OrderStatus
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="2"></div>
+            <div class="col-4">
+                Comments :
+            </div>
+            <div class="col-6">
+                @Model.Comments
+            </div>
+        </div>
+
+    </div>
+
+</div>

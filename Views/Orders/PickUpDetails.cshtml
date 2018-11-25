@@ -1,0 +1,121 @@
+﻿@model Restaurant.Models.Entities.OrderHeader
+@{
+    ViewData["Title"] = "PickUpDetails";
+}
+
+<h2>PickUpDetails</h2>
+<br />
+
+<form method="post">
+    <div class="container row border">
+        <div class="col-8 border-right" style="margin-top:50px;">
+            <div class="form-group row">
+                <div class="col-3">
+                    <label>Name :</label>
+                </div>
+                <div class="col-9">
+                    @{
+                        var fullName = @Model.ApplicationUser.FristName + " " + @Model.ApplicationUser.Lastname;
+                    }
+
+                    @*<input value="@Model.ApplicationUser.FristName +  @Model.ApplicationUser.Lastname" class="disabled form-control" />*@
+                    <input asp-for="@fullName" class="disabled form-control" disabled />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="ApplicationUser.Email"></label>
+                </div>
+                <div class="col-9">
+                    <input asp-for="ApplicationUser.Email" class="disabled form-control" disabled />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="ApplicationUser.PhoneNumber"></label>
+                </div>
+                <div class="col-9">
+                    <input asp-for="ApplicationUser.PhoneNumber" class="disabled form-control" disabled />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="OrderTotalPrice"></label>
+                </div>
+                <div class="col-9">
+                    <input asp-for="OrderTotalPrice" class="disabled form-control" disabled />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="OrderDate"></label>
+                </div>
+                <div class="col-9">
+                    <input value="@Model.OrderDate.ToShortDateString() @Model.OrderDate.ToShortTimeString()" class="disabled form-control" disabled />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="PickUpTime"></label>
+                </div>
+                <div class="col-9">
+                    <input asp-for="PickUpTime" class="disabled form-control" disabled />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="Comments"></label>
+                </div>
+                <div class="col-9">
+                    <input asp-for="Comments" class="disabled form-control" disabled />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 mt-3">
+            <h4 class="d-flex justify-content-between">
+                <span>Order :</span>
+                <span class="badge badge-info badge-pill">@Model.Id</span>
+            </h4>
+
+            <ul class="list-group mb-3">
+                @foreach (var item in Model.OrderDetails)
+                {
+                    <li class="list-group-item ">
+                        <h6>@item.Name</h6>
+                        <small class="text-muted">Quantity : @item.Count</small>
+                    </li>
+                    @if (Model.CouponCode != null)
+                    {
+                        <li class="list-group-item ">
+
+                            <strong>
+                                <span class="text-success">Code : @Model.CouponCode</span>
+                            </strong>
+                        </li>
+                    }
+
+                }
+                <li class="list-group-item ">
+
+                    <strong>
+                        <span class="text-info">Total : @Model.OrderTotalPrice</span>
+                    </strong>
+                </li>
+            </ul>
+
+            <div>
+                <button type="submit" asp-route-orderId="@Model.Id" class="btn btn-outline-success btn-block">
+                    <i class="far fa-thumbs-up"></i>Confirm Pick up
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+

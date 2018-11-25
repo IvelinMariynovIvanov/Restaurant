@@ -1,0 +1,227 @@
+﻿@model Restaurant.ViewModels.OrderDetailsVm.OrderDetailsCartVm
+@{
+    ViewData["Title"] = "Index";
+}
+
+<form method="post">
+    <h2>Your shopping cart</h2>
+    <br />
+
+    @if (Model.AllItemsInShoppingCart.Count > 0)
+    {
+        <input id="UserId" asp-for="@Model.AllItemsInShoppingCart[0].ApplicationUserId" hidden />
+        <input hidden asp-for="@Model.OrderHeader.OrderTotalPrice" />
+        @*<input colletion="AllItemsInShoppingCart" hidden asp-for="@Model.AllItemsInShoppingCart" />*@
+
+        <div class="border border-info" style="padding:15px;">
+            <div class="container">
+                <table class="table table-striped" width="100%">
+                    <tr>
+                        <th>
+                            <label asp-for="AllItemsInShoppingCart.FirstOrDefault().MenuItem.Name"></label>
+                        </th>
+                        <th style="width:90px; text-align:center">
+                            <label asp-for="AllItemsInShoppingCart.FirstOrDefault().MenuItem.Price"></label>
+                        </th>
+                        <th style="width:90px; text-align:center">
+                            <label asp-for="AllItemsInShoppingCart.FirstOrDefault().Count"></label>
+                        </th>
+                        <th style="width:140px; text-align:center">
+
+                        </th>
+                    </tr>
+                    @foreach (var item in Model.AllItemsInShoppingCart)
+                    {
+                        <tr style="padding:50px;">
+                            <td>
+                                <h4>
+                                    <b>@Html.DisplayFor(i => item.MenuItem.Name)</b>
+                                </h4>
+
+                                @Html.DisplayFor(i => item.MenuItem.Description)
+                            </td>
+                            <td style="width:90px; text-align:center">
+                                <label class="mt-2">
+                                    @Html.DisplayFor(i => item.MenuItem.Price)
+                                </label>
+                            </td>
+                            <td style="width:90px; text-align:center">
+                                <label class="mt-2">
+                                    @Html.DisplayFor(i => item.Count)
+                                </label>
+                            </td>
+                            <td style="width:140px; text-align:center">
+                                <button type="submit" class="btn btn-danger mt-2" asp-action="Minus" asp-route-cartId="@item.Id">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+
+                                <button type="submit" class="btn btn-primary mt-2" asp-action="Plus" asp-route-cartId="@item.Id">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+
+            <div class="container">
+
+                <div class="row m-2">
+                    <div class="col-2">
+                        <label>Coupon Code :</label>
+                    </div>
+                    <div class="col-2">
+                        <input asp-for="OrderHeader.CouponCode" id="txtCouponCode" class="form-control" />
+                    </div>
+                    <div class="col-2 mt-1">
+
+                        <input type="button" id="btnCoupon" class="btn btn-sm btn-success" value="Apply" />
+
+                        <a asp-action="Index" asp-controller="Carts" id="btnRemoveCoupon" class="btn btn-sm btn-danger" style="display:none">Remove</a>
+                    </div>
+                </div>
+
+                <div class="row m-2">
+                    <div class="col-2">
+                        <label>Order Total :</label>
+                    </div>
+                    <div class="col-3">
+                        <input asp-for="OrderHeader.OrderTotalPrice" id="txtOrderTotal" class="form-control" disabled />
+                    </div>
+                    <div class="col-2">
+
+                    </div>
+                    <div class="col-2">
+                        <label>Pick Up Time:</label>
+                    </div>
+                    <div class="col-3">
+                        <input asp-for="OrderHeader.PickUpTime" value="" id="timepicker" type="text" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="row m-2">
+                    <div class="col-2">
+                        <label>Coments :</label>
+                    </div>
+                    <div class="col-10">
+                        <textarea asp-for="OrderHeader.Comments" class="form-control" style="height:100px;">
+
+                        </textarea>
+                    </div>
+                </div>
+
+                <div class="row m-2">
+                    <div class="col-2">
+
+                    </div>
+                    <div class="col-5">
+                        <label class="text-danger" id="lblShopClosed" style="display:none;">
+                            Coupon Code :
+                        </label>
+                    </div>
+                    <div class="col-5 text-right">
+                        <button type="submit" id="btnPlaceOrder" onclick="return validateInput()" class="btn btn-success">
+                            PlaceOrder
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div>
+            No items added to shopping cart
+        </div>
+    }
+
+</form>
+
+@section Scripts{
+
+
+    @*include timepicker*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.js"></script>
+
+    <script>
+       
+        function validateInput() {
+            var time = document.getElementById("timepicker").value;
+            if (time.toString() == '') {
+                alert("Please select pickup time");
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        $(document).ready(function () {
+
+          
+
+            var curDt = new Date();
+            //12pm-10pm
+            var minTime = "";
+            if (curDt.getHours() < 11) {
+                minTime = '12:00pm';
+            }
+            else {
+                if (curDt.getMinutes() < 30) {
+                    minTime = (curDt.getHours() + 1).toString() + ":30pm";
+                }
+                else {
+                    minTime = (curDt.getHours() + 2).toString() + ":00pm";
+                }
+            }
+
+            if (curDt.getHours() > 20) {
+                //No More orders
+                $('timepicker').prop('disabled', true);
+                $('btnPlaceOrder').prop('disabled', true);
+                $('lblShopClosed').show();
+            }
+
+            $('#timepicker').timepicker({
+                'minTime': minTime,
+                'maxTime': '20:00pm'
+            });
+
+            //$('#timepicker').prop('width:100px;'     
+
+            $('#btnCoupon').click(function () {
+                var couponCode = document.getElementById("txtCouponCode").value;
+                var orderTotal = document.getElementById("txtOrderTotal").value;
+                $.ajax({
+                    url: '/Api/CouponApi?orderTotal=' + orderTotal + '&couponCode=' + couponCode,
+                    type: 'GET',
+                    dataType: 'text',
+                    success: function (data, textStatus, xhr) {
+                        var splitData = data.split(":");
+                        if (splitData[1] == 'E') {
+                            //Error
+                            alert("Coupons is either invalid or does not meet the criteria");
+                        }
+                        else {
+                            //Success
+
+                            $('#txtOrderTotal').attr('value', Math.round(splitData[0] * 100) / 100);
+                            document.getElementById('txtCouponCode').readOnly = true;
+                            document.getElementById('btnCoupon').style.display = 'none';
+                            document.getElementById('btnRemoveCoupon').style.display = '';
+
+                            //$("#txtCouponCode").readOnly = true;
+                            //$('#btnCoupon').style.display = 'none';
+                            //$('#btnRemoveCoupon').style.display = '';
+                        }
+                    }
+                })
+            });
+
+        });
+
+  
+    </script>
+
+}

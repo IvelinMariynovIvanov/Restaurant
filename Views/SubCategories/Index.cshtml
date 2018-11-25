@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Restaurant.Models.Entities.SubCategory>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>SubCategories</h2>
+<br />
+@Html.Partial("_CreateButtonPartial")
+
+<hr />
+
+<div class="border">
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.Category.Name)
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(m => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.Category.Name)
+            </td>
+            <td>
+                @Html.Partial("_TableButtonsPartial", item.Id)
+            </td>
+        </tr>
+        }
+    </table>
+</div>
+
