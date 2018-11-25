@@ -24,6 +24,7 @@ namespace Restaurant.Controllers
 
         public CartsController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
         {
+            /// some
             _db = db;
             _userManager = userManager;
 
